@@ -1,0 +1,15 @@
+{
+    "name": "creativestyle/magesuite-stuck-indexers-fixer",
+    "description": "Extension for unblocking indexers that got stuck",
+    "type": "magento2-module",
+    "homepage": "https://creativestyle.de",
+    "license": "OSL-3.0",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "MageSuite\\StuckIndexersFixer\\": ""
+        }
+    }
+}
