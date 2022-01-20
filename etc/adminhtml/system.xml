@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="system">
+            <group id="stuck_indexers_fixer" translate="label" type="text" sortOrder="1300" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Stuck Indexers Fixer</label>
+                <field id="is_automatic_fixing_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Automatic Stuck Indexes Fixing</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>When enabled indexing that got somehow stuck will be automatically detected and fixed</comment>
+                </field>
+                <field id="threshold_to_mark_indexer_as_stuck" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Threshold to mark indexer as stuck</label>
+                    <comment>How long (in minutes) from the last activity must pass for indexer in a "working" status to treat it as stuck.</comment>
+                    <validate>validate-number validate-length maximum-length-4 validate-positive-number</validate>
+                    <depends>
+                        <field id="is_fixing_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="cron_schedule" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Cron expression for scheduling the fixer</label>
+                    <comment><![CDATA[Use Crontab Format (Eg. "*/5 * * * *" for every 5 minutes) | <a href="https://en.wikipedia.org/wiki/Cron">https://en.wikipedia.org/wiki/Cron</a>]]></comment>
+                    <depends>
+                        <field id="is_fixing_enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
