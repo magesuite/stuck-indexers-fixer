@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <system>
+            <stuck_indexers_fixer>
+                <is_automatic_fixing_enabled>1</is_automatic_fixing_enabled>
+                <threshold_to_mark_indexer_as_stuck>120</threshold_to_mark_indexer_as_stuck>
+                <cron_schedule>*/5 * * * *</cron_schedule>
+            </stuck_indexers_fixer>
+        </system>
+    </default>
+</config>
