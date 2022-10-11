@@ -23,6 +23,10 @@ class FixStuckIndexers
 
     public function execute()
     {
+        if ($this->configuration->shouldEnableSuspendedIndexes()) {
+            $this->fixSuspendedIndexes();
+        }
+
         if (!$this->configuration->isAutomaticFixingEnabled()) {
             return;
         }
@@ -30,6 +34,17 @@ class FixStuckIndexers
         $thresholdToMarkIndexerAsStuck = $this->configuration->getThresholdToMarkIndexerAsStuck();
 
         $this->fixStuckIndexers($thresholdToMarkIndexerAsStuck);
+    }
+
+    protected function fixSuspendedIndexes()
+    {
+        $suspendedMview = $this->mviewState->getSuspendedIndexers() ?? [];
+
+        foreach ($suspendedMview as $mview) {
+            $this->mviewState->setIndexerAsIdle($mview['view_id']);
+
+            $this->logger->info(sprintf('Detected and unblocked suspended view %s', $mview['view_id']));
+        }
     }
 
     protected function fixStuckIndexers($threshold)
