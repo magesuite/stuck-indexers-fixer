@@ -9,6 +9,11 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>When enabled indexing that got somehow stuck will be automatically detected and fixed</comment>
                 </field>
+                <field id="should_enable_suspended_indexes" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Shoud enable suspended indexes</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>When enabled indexing that got suspended will be automatically detected and fixed</comment>
+                </field>
                 <field id="threshold_to_mark_indexer_as_stuck" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Threshold to mark indexer as stuck</label>
                     <comment>How long (in minutes) from the last activity must pass for indexer in a "working" status to treat it as stuck.</comment>

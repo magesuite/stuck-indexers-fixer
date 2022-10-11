@@ -17,8 +17,19 @@ class MviewState
 
         $select = $connection->select();
         $select->from($connection->getTableName('mview_state'));
-        $select->where('status = ?', 'working');
+        $select->where('status = ?', \Magento\Framework\Mview\View\StateInterface::STATUS_WORKING);
         $select->where(sprintf('updated < date_sub(NOW(), INTERVAL %s Minute)', $stuckDetectionThreshold));
+
+        return $connection->fetchAll($select);
+    }
+
+    public function getSuspendedIndexers()
+    {
+        $connection = $this->resourceConnection->getConnection();
+
+        $select = $connection->select();
+        $select->from($connection->getTableName('mview_state'));
+        $select->where('status = ?', \Magento\Framework\Mview\View\StateInterface::STATUS_SUSPENDED);
 
         return $connection->fetchAll($select);
     }

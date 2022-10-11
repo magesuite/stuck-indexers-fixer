@@ -4,6 +4,7 @@
         <system>
             <stuck_indexers_fixer>
                 <is_automatic_fixing_enabled>1</is_automatic_fixing_enabled>
+                <should_enable_suspended_indexes>1</should_enable_suspended_indexes>
                 <threshold_to_mark_indexer_as_stuck>120</threshold_to_mark_indexer_as_stuck>
                 <cron_schedule>*/5 * * * *</cron_schedule>
             </stuck_indexers_fixer>

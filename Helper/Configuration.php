@@ -24,6 +24,11 @@ class Configuration
         return $this->getConfig()->getIsAutomaticFixingEnabled();
     }
 
+    public function shouldEnableSuspendedIndexes(): bool
+    {
+        return $this->getConfig()->getShouldEnableSuspendedIndexes();
+    }
+
     public function getThresholdToMarkIndexerAsStuck(): int
     {
         return $this->getConfig()->getThresholdToMarkIndexerAsStuck();

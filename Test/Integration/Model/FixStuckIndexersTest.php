@@ -69,7 +69,7 @@ class FixStuckIndexersTest extends \PHPUnit\Framework\TestCase
      * @magentoDbIsolation enabled
      * @dataProvider mviewTestCases
      */
-    public function testItFixesOnlyStuckViews($currentStatus, $lastUpdated, $expectedStatus)
+    public function testItFixesStuckAndSuspendedViews($currentStatus, $lastUpdated, $expectedStatus)
     {
         $connection = $this->connection->getConnection();
         $connection->insert(
@@ -131,6 +131,11 @@ class FixStuckIndexersTest extends \PHPUnit\Framework\TestCase
                 'working',
                 self::prepareTime('-2 minute'),
                 'working'
+            ],
+            [
+                'suspended',
+                self::prepareTime('-1 minute'),
+                'idle'
             ],
         ];
     }

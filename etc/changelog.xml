@@ -1,0 +1,19 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:MageSuite_Changelog:etc/changelog.xsd">
+    <module id="MageSuite_StuckIndexersFixer" name="MageSuite_StuckIndexersFixer">
+        <changelog>
+            <tag version="1.0.0" date="2022-20-01">
+                <entry>
+                    <type>INIT</type>
+                    <overview>Initial release</overview>
+                    <description></description>
+                </entry>
+            </tag>
+            <tag version="1.1.0" date="2022-10-11">
+                <entry>
+                    <type>FEATURE</type>
+                    <overview>[IPET-1628] Fix suspended indexers automatically</overview>
+                </entry>
+            </tag>
+        </changelog>
+    </module>
+</config>
