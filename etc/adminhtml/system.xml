@@ -29,6 +29,7 @@
                         <field id="is_fixing_enabled">1</field>
                     </depends>
                 </field>
+                <fieldset_css>cs-csfeature__logo</fieldset_css>
             </group>
         </section>
     </system>
