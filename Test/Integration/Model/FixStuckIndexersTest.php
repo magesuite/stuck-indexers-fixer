@@ -5,11 +5,6 @@ namespace MageSuite\StuckIndexersFixer\Test\Integration\Model;
 class FixStuckIndexersTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \Magento\Framework\App\ObjectManager
-     */
-    protected $objectManager;
-
-    /**
      * @var \Magento\Indexer\Model\Indexer\StateFactory
      */
     protected $indexerStateFactory;
@@ -28,13 +23,13 @@ class FixStuckIndexersTest extends \PHPUnit\Framework\TestCase
      */
     protected $mviewStateFactory;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
-        $this->objectManager = \Magento\TestFramework\ObjectManager::getInstance();
-        $this->indexerStateFactory = $this->objectManager->get(\Magento\Indexer\Model\Indexer\StateFactory::class);
-        $this->mviewStateFactory = $this->objectManager->get(\Magento\Framework\Mview\View\StateInterfaceFactory::class);
-        $this->stuckIndexerFixer = $this->objectManager->create(\MageSuite\StuckIndexersFixer\Model\FixStuckIndexers::class);
-        $this->connection = $this->objectManager->get(\Magento\Framework\App\ResourceConnection::class);
+        $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
+        $this->indexerStateFactory = $objectManager->get(\Magento\Indexer\Model\Indexer\StateFactory::class);
+        $this->mviewStateFactory = $objectManager->get(\Magento\Framework\Mview\View\StateInterfaceFactory::class);
+        $this->stuckIndexerFixer = $objectManager->create(\MageSuite\StuckIndexersFixer\Model\FixStuckIndexers::class);
+        $this->connection = $objectManager->get(\Magento\Framework\App\ResourceConnection::class);
 
         parent::setUp();
     }
@@ -43,7 +38,7 @@ class FixStuckIndexersTest extends \PHPUnit\Framework\TestCase
      * @magentoDbIsolation enabled
      * @dataProvider indexerTestCases
      */
-    public function testItFixesOnlyStuckIndexers($currentStatus, $lastUpdated, $expectedStatus)
+    public function testItFixesOnlyStuckIndexers(string $currentStatus, string $lastUpdated, string $expectedStatus): void
     {
         $connection = $this->connection->getConnection();
         $connection->update(
@@ -69,22 +64,10 @@ class FixStuckIndexersTest extends \PHPUnit\Framework\TestCase
      * @magentoDbIsolation enabled
      * @dataProvider mviewTestCases
      */
-    public function testItFixesStuckAndSuspendedViews($currentStatus, $lastUpdated, $expectedStatus)
+    public function testItFixesStuckAndSuspendedViews(string $currentStatus, string $lastUpdated, string $expectedStatus): void
     {
-        $connection = $this->connection->getConnection();
-        $connection->insert(
-            'mview_state',
-            [
-                'view_id' => \Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID,
-                'status' => $currentStatus,
-                'updated' => $lastUpdated,
-                'version_id' => 0,
-                'mode' => 'enabled'
-            ],
-        );
-
+        $this->updateStateStatus($currentStatus, $lastUpdated);
         $this->stuckIndexerFixer->execute();
-
         $indexer = $this->mviewStateFactory->create()->load(
             \Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID,
             'view_id'
@@ -149,5 +132,37 @@ class FixStuckIndexersTest extends \PHPUnit\Framework\TestCase
         }
 
         return $dateTime->format(\DateTime::ATOM);
+    }
+
+    protected function updateStateStatus(string $currentStatus, string $lastUpdated): void
+    {
+        $connection = $this->connection->getConnection();
+        $tableName = $connection->getTableName('mview_state');
+        $select = $connection->select()->from($tableName, 'state_id')
+            ->where('view_id = ?', \Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID);
+        $stateId = (int)$connection->fetchOne($select);
+
+        if ($stateId) {
+            $connection->update(
+                $tableName,
+                [
+                    'status' => $currentStatus,
+                    'updated' => $lastUpdated,
+                ],
+                ['state_id = ?' => $stateId]
+            );
+            return;
+        }
+
+        $connection->insert(
+            $tableName,
+            [
+                'view_id' => \Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID,
+                'status' => $currentStatus,
+                'updated' => $lastUpdated,
+                'version_id' => 0,
+                'mode' => 'enabled'
+            ]
+        );
     }
 }
