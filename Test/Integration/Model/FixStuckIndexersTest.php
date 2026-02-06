@@ -1,27 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MageSuite\StuckIndexersFixer\Test\Integration\Model;
 
 class FixStuckIndexersTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \Magento\Indexer\Model\Indexer\StateFactory
-     */
-    protected $indexerStateFactory;
-
-    /**
-     * @var \MageSuite\StuckIndexersFixer\Model\FixStuckIndexers|mixed
-     */
-    protected $stuckIndexerFixer;
+    protected ?\Magento\Indexer\Model\Indexer\StateFactory $indexerStateFactory;
+    protected ?\MageSuite\StuckIndexersFixer\Model\FixStuckIndexers $stuckIndexerFixer;
+    protected ?\Magento\Framework\Mview\View\StateInterfaceFactory $mviewStateFactory;
 
     /**
      * @var \Magento\Framework\App\ResourceConnection|mixed
      */
-    protected $connection;
-    /**
-     * @var \Magento\Framework\Mview\View\StateInterfaceFactory
-     */
-    protected $mviewStateFactory;
+    protected mixed $connection;
 
     protected function setUp(): void
     {
@@ -76,7 +68,7 @@ class FixStuckIndexersTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedStatus, $indexer->getStatus());
     }
 
-    public static function indexerTestCases()
+    public static function indexerTestCases(): array
     {
         return [
             [
@@ -97,7 +89,7 @@ class FixStuckIndexersTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public static function mviewTestCases()
+    public static function mviewTestCases(): array
     {
         return [
             [
@@ -123,7 +115,7 @@ class FixStuckIndexersTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    protected static function prepareTime($modify = null)
+    protected static function prepareTime(?string $modify = null): string
     {
         $dateTime = new \DateTime();
 
