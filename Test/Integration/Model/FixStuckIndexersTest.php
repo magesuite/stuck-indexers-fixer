@@ -28,8 +28,8 @@ class FixStuckIndexersTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @magentoDbIsolation enabled
-     * @dataProvider indexerTestCases
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('indexerTestCases')]
     public function testItFixesOnlyStuckIndexers(string $currentStatus, string $lastUpdated, string $expectedStatus): void
     {
         $connection = $this->connection->getConnection();
@@ -54,8 +54,8 @@ class FixStuckIndexersTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @magentoDbIsolation enabled
-     * @dataProvider mviewTestCases
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('mviewTestCases')]
     public function testItFixesStuckAndSuspendedViews(string $currentStatus, string $lastUpdated, string $expectedStatus): void
     {
         $this->updateStateStatus($currentStatus, $lastUpdated);
