@@ -9,7 +9,7 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>When enabled indexing that got somehow stuck will be automatically detected and fixed</comment>
                 </field>
-                <field id="should_enable_suspended_indexes" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="should_enable_suspended_indexes" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Should enable suspended indexes</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>When enabled indexing that got suspended will be automatically detected and fixed</comment>
@@ -19,14 +19,14 @@
                     <comment>How long (in minutes) from the last activity must pass for indexer in a "working" status to treat it as stuck.</comment>
                     <validate>validate-number validate-length maximum-length-4 validate-positive-number</validate>
                     <depends>
-                        <field id="is_fixing_enabled">1</field>
+                        <field id="is_automatic_fixing_enabled">1</field>
                     </depends>
                 </field>
                 <field id="cron_schedule" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Cron expression for scheduling the fixer</label>
                     <comment><![CDATA[Use Crontab Format (Eg. "*/5 * * * *" for every 5 minutes) | <a href="https://en.wikipedia.org/wiki/Cron">https://en.wikipedia.org/wiki/Cron</a>]]></comment>
                     <depends>
-                        <field id="is_fixing_enabled">1</field>
+                        <field id="is_automatic_fixing_enabled">1</field>
                     </depends>
                 </field>
                 <fieldset_css>cs-csfeature__logo</fieldset_css>
